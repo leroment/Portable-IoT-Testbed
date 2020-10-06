@@ -1,7 +1,5 @@
 import React from "react";
 
-const Nav = () => {
+const Placeholder = () => {
   return <div></div>;
 };
-
-export default Nav;

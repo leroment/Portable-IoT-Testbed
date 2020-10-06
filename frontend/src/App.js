@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import LoginRegister from "./login-register/Pages/LoginRegister";
-import Dashboard from "./dashboard/Dashboard";
+import Dashboard from "./dashboard/Pages/Dashboard";
 
 const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
   return (
