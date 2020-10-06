@@ -8,8 +8,6 @@ import Overlay from "../components/Overlay";
 const LoginRegister = () => {
   const [rightPanelActive, setRightPanelActive] = useState(false);
 
- 
-
   return (
     <div className="main">
       <div
@@ -19,11 +17,11 @@ const LoginRegister = () => {
         <Login />
         <Overlay
           handleClickSignInButton={() => {
-            console.log("clicked singin button")
-            setRightPanelActive(false)
+            console.log("clicked singin button");
+            setRightPanelActive(false);
           }}
           handleClickSignUpButton={() => {
-            setRightPanelActive(true)
+            setRightPanelActive(true);
           }}
         />
       </div>

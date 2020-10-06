@@ -1,14 +1,35 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
-import Login from "./login-register/components/Login";
-import LoginRegister from "./login-register/pages/LoginRegister";
+import LoginRegister from "./login-register/Pages/LoginRegister";
+import Dashboard from "./dashboard/Dashboard";
+
+const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        authenticated === true ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+        )
+      }
+    />
+  );
+};
 
 function App() {
   return (
     <div className="App">
       <Router>
+        <PrivateRoute
+          path="/dashboard"
+          exact
+          authenticated-={() => {}}
+          component={Dashboard}
+        />
         <Route path="/">
           <LoginRegister />
         </Route>
