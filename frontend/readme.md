@@ -1,5 +1,5 @@
 ### Checklist for getting started with Frontend (React)
-- [x] [Nodejs](https://nodejs.org/en/download/0)
+- [x] [Nodejs](https://nodejs.org/en/download)
 - [x] [Git](https://git-scm.com/downloads) 
 - [x] [Yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable) 
 - [x] [IDE](https://code.visualstudio.com/)
