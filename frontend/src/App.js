@@ -1,9 +1,15 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
 
-import LoginRegister from "./login-register/Pages/LoginRegister";
-import Dashboard from "./dashboard/Pages/Dashboard";
+import LoginRegister from "./login-register/pages/LoginRegister";
+import Dashboard from "./dashboard/pages/Dashboard";
+import MainNavigation from "./shared/components/Navigation/MainNavigation";
 
 const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
   return (
@@ -24,15 +30,23 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <PrivateRoute
+        <MainNavigation />
+        <main>
+          <Switch>
+            {/* <PrivateRoute
           path="/dashboard"
           exact
           authenticated-={() => {}}
           component={Dashboard}
-        />
-        <Route path="/">
-          <LoginRegister />
-        </Route>
+        /> */}
+            <Route path="/dashboard" exact>
+              <Dashboard />
+            </Route>
+            <Route path="/" exact>
+              <LoginRegister />
+            </Route>
+          </Switch>
+        </main>
       </Router>
       {/* <h1> Grafana in React App</h1>
       <iframe
