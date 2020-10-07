@@ -11,6 +11,8 @@ import LoginRegister from "./login-register/pages/LoginRegister";
 import Dashboard from "./dashboard/pages/Dashboard";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 
+
+//private route
 const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
   return (
     <Route
