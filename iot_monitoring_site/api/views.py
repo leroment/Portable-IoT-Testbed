@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import login
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, viewsets
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.response import Response
 from knox.models import AuthToken
 from knox.views import LoginView as KnoxLoginView
-from .serializers import UserSerializer, RegisterSerializer
 
+from django.contrib.auth.models import User
+from .serializers import UserSerializer, RegisterSerializer, PatientDataSerializer, ECGDataSerializer, EDADataSerializer, EMGDataSerializer, AccelerometerDataSerializer
+from .models import PatientData, ECGData, EDAData, EMGData, AccelerometerData, CriticalVitals
 
 # Create your views here.
 
@@ -37,4 +39,36 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data['user']
         login(request, user)
         return super(LoginAPI, self).post(request, format=None)
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class PatientViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.filter(is_staff = False)
+    serializer_class = UserSerializer
+
+class HealthOfficerViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.filter(is_staff = True)
+    serializer_class = UserSerializer
+
+class PatientDataViewSet(viewsets.ModelViewSet):
+    queryset = PatientData.objects.all()
+    serializer_class = PatientDataSerializer
+
+class ECGDataViewSet(viewsets.ModelViewSet):
+    queryset = ECGData.objects.all()
+    serializer_class = ECGDataSerializer
+
+class EDADataViewSet(viewsets.ModelViewSet):
+    queryset = EDAData.objects.all()
+    serializer_class = EDADataSerializer
+
+class EMGDataViewSet(viewsets.ModelViewSet):
+    queryset = EMGData.objects.all()
+    serializer_class = EMGDataSerializer
+
+class AccelerometerDataViewSet(viewsets.ModelViewSet):
+    queryset = AccelerometerData.objects.all()
+    serializer_class = AccelerometerDataSerializer
 
