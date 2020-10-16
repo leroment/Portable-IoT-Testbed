@@ -8,7 +8,8 @@ from .views import (
     LoginAPI, 
     UserViewSet, 
     PatientViewSet, 
-    HealthOfficerViewSet, 
+    HealthOfficerViewSet,
+    DataViewSet,
     PatientDataViewSet, 
     ECGDataViewSet, 
     EDADataViewSet, 
@@ -19,6 +20,7 @@ from .views import (
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'patients', PatientViewSet)
+router.register(r'datalist', DataViewSet)
 router.register(r'healthofficers', HealthOfficerViewSet)
 router.register(r'ecg', ECGDataViewSet)
 router.register(r'eda', EDADataViewSet)

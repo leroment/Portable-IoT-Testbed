@@ -20,28 +20,34 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
-class PatientDataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PatientData
-        fields = ('id', 'user', 'health_officer')
-
 class ECGDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ECGData
-        fields = ('id', 'patient', 'data_id')
+        fields = ('id', 'patient_data', 'data_id')
 
 class EDADataSerializer(serializers.ModelSerializer):
     class Meta:
         model = EDAData
-        fields = ('id', 'patient', 'data_id')
+        fields = ('id', 'patient_data', 'data_id')
 
 class EMGDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = EMGData
-        fields = ('id', 'patient', 'data_id')
+        fields = ('id', 'patient_data', 'data_id')
 
 class AccelerometerDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccelerometerData
-        fields = ('id', 'patient', 'data_id')
+        fields = ('id', 'patient_data', 'data_id')
+
+
+class PatientDataSerializer(serializers.ModelSerializer):
+    ecg = ECGDataSerializer(many=True, source='ecgdata_set', read_only=True)
+    eda = EDADataSerializer(many=True, source='edadata_set', read_only=True)
+    emg = EMGDataSerializer(many=True, source='emgdata_set', read_only=True)
+    accelerometer = AccelerometerDataSerializer(many=True, source='accelerometerdata_set', read_only=True)
+
+    class Meta:
+        model = PatientData
+        fields = ('id', 'user', 'health_officer', 'creation_date', 'ecg', 'eda', 'emg', 'accelerometer')
 

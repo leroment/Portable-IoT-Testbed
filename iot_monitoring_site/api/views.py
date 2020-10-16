@@ -4,21 +4,27 @@ from django.contrib.auth import login
 from rest_framework import generics, permissions, viewsets
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.response import Response
+from rest_framework.permissions import BasePermission
 from knox.models import AuthToken
 from knox.views import LoginView as KnoxLoginView
-
 from django.contrib.auth.models import User
 from .serializers import UserSerializer, RegisterSerializer, PatientDataSerializer, ECGDataSerializer, EDADataSerializer, EMGDataSerializer, AccelerometerDataSerializer
 from .models import PatientData, ECGData, EDAData, EMGData, AccelerometerData, CriticalVitals
 
 # Create your views here.
 
-#def home(request):
-#    return HttpResponse('<h1>Api home</h1>')
+class UserOnly(BasePermission):
+    message = 'Invalid user'
+
+    def has_permission(self, request, view):
+        user_id = int(request.resolver_match.kwargs['user_pk'])
+        return request.user.id == user_id
 
 
 # Register API
 class RegisterAPI(generics.GenericAPIView):
+    permission_classes = (permissions.AllowAny,)
+
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
@@ -43,32 +49,57 @@ class LoginAPI(KnoxLoginView):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser, )
+
 
 class PatientViewSet(viewsets.ModelViewSet):
     queryset = User.objects.filter(is_staff = False)
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser, )
+
 
 class HealthOfficerViewSet(viewsets.ModelViewSet):
     queryset = User.objects.filter(is_staff = True)
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
 
-class PatientDataViewSet(viewsets.ModelViewSet):
+#all data
+class DataViewSet(viewsets.ModelViewSet):
     queryset = PatientData.objects.all()
     serializer_class = PatientDataSerializer
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+#single patient
+class PatientDataViewSet(viewsets.ModelViewSet):
+    serializer_class = PatientDataSerializer
+    permission_classes = (permissions.IsAuthenticated, UserOnly)
+
+    def get_queryset(self):
+        user_id = int(self.kwargs['user_pk'])
+        return PatientData.objects.filter(user=user_id)
+
 
 class ECGDataViewSet(viewsets.ModelViewSet):
     queryset = ECGData.objects.all()
     serializer_class = ECGDataSerializer
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
 
 class EDADataViewSet(viewsets.ModelViewSet):
     queryset = EDAData.objects.all()
     serializer_class = EDADataSerializer
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
 
 class EMGDataViewSet(viewsets.ModelViewSet):
     queryset = EMGData.objects.all()
     serializer_class = EMGDataSerializer
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
 
 class AccelerometerDataViewSet(viewsets.ModelViewSet):
     queryset = AccelerometerData.objects.all()
     serializer_class = AccelerometerDataSerializer
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
 
