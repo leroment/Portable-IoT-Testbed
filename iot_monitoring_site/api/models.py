@@ -10,19 +10,19 @@ class PatientData(models.Model):
 
 class ECGData(models.Model):
     patient_data = models.ForeignKey(PatientData, on_delete=models.CASCADE)
-    data_id = models.FloatField()
+    data_id = models.CharField(max_length=40)
 
 class EDAData(models.Model):
     patient_data = models.ForeignKey(PatientData, on_delete=models.CASCADE)
-    data_id = models.FloatField()
+    data_id = models.CharField(max_length=40)
 
 class EMGData(models.Model):
     patient_data = models.ForeignKey(PatientData, on_delete=models.CASCADE)
-    data_id = models.FloatField()
+    data_id = models.CharField(max_length=40)
 
 class AccelerometerData(models.Model):
     patient_data = models.ForeignKey(PatientData, on_delete=models.CASCADE)
-    data_id = models.FloatField()
+    data_id = models.CharField(max_length=40)
 
 class CriticalVitals(models.Model):
     patient_data = models.ForeignKey(PatientData, on_delete=models.CASCADE)
