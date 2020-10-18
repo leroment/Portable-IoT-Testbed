@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -12,21 +12,43 @@ import Dashboard from "./dashboard/pages/Dashboard";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Patientslist from "./patientslist/pages/Patientslist";
 
-
 const isAuthenticated = () => {
+  console.log("from app js" + localStorage.getItem("token"));
   return !!localStorage.getItem("token");
 };
-
 //private route
-const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
+const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) =>
-        authenticated === true ? (
-          <Component {...props} />
+        isAuthenticated() ? (
+          <div>
+            <MainNavigation authenticated={isAuthenticated()} />
+            <Component {...props} />
+          </div>
         ) : (
-          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+          <Redirect to={{ pathname: "/" }} />
+        )
+      }
+    />
+  );
+};
+
+const PublicRoute = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        isAuthenticated() ? (
+          <div>
+            <Redirect to={{ pathname: "/dashboard" }} />
+          </div>
+        ) : (
+          <div>
+            <MainNavigation authenticated={isAuthenticated()} />
+            <Component {...props} />
+          </div>
         )
       }
     />
@@ -34,25 +56,25 @@ const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
 };
 
 function App() {
+  // const [authenticated, setAuthenticated] = useState(isAuthenticated);
+
+  // const updateAuthenticated = (value) => {
+  //   setAuthenticated(value)
+  // }
+
   return (
     <div className="App">
       <Router>
-        <MainNavigation />
         <main>
           <Switch>
-            <PrivateRoute
-          path="/dashboard"
-          exact
-          authenticated-={ isAuthenticated }
-          component={ Dashboard }
-        />
+            <PrivateRoute path="/dashboard" exact component={Dashboard} />
             {/* <Route path="/dashboard" exact>
               <Dashboard />
             </Route> */}
-            <PrivateRoute path="/patientslist" exact authenticated={ isAuthenticated } component={ Patientslist } />
-            <Route path="/" exact>
-              <LoginRegister />
-            </Route>
+            <PrivateRoute path="/patientslist" exact component={Patientslist} />
+            <PublicRoute path="/" exact component={LoginRegister} />
+            {/* <LoginRegister /> */}
+            {/* </PublicRoute> */}
           </Switch>
         </main>
       </Router>
