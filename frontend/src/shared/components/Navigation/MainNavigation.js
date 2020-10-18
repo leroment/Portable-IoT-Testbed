@@ -5,7 +5,7 @@ import MainHeader from "./MainHeader";
 import NavLinks from "./NavLinks";
 import "./MainNavigation.css";
 
-const MainNavigation = (props) => {
+const MainNavigation = ({authenticated}) => {
   return (
     <MainHeader>
       <button className="main-navigation__menu-btn">
@@ -17,7 +17,7 @@ const MainNavigation = (props) => {
         <Link to="/dashboard">Health Monitoring System</Link>
       </h1>
       <nav>
-        <NavLinks />
+        <NavLinks authenticated={authenticated} />
       </nav>
     </MainHeader>
   );
