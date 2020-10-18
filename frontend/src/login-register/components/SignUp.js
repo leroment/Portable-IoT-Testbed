@@ -61,17 +61,17 @@ const SignUp = () => {
 //     }
 //     )
 
-  // const formData = new FormData();
-  // formData.set("username", username);
-  // formData.set("email", email);
-  // formData.set("password", password);
+//   const formData = new FormData();
+//   formData.set("username", username);
+//   formData.set("email", email);
+//   formData.set("password", password);
 
-  // const signup = await axios({
-  //   method: "POST",
-  //   url: `${base}/register`,
-  //   data: formData,
-  //   config: {},
-  // });
-//};
+//   const signup = await axios({
+//     method: "POST",
+//     url: `${base}/register`,
+//     data: formData,
+//     config: {},
+//   });
+// };
 
 export default SignUp;
