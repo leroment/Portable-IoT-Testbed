@@ -44,14 +44,12 @@ function App() {
           path="/dashboard"
           exact
           authenticated-={ isAuthenticated }
-          component={Dashboard}
+          component={ Dashboard }
         />
             {/* <Route path="/dashboard" exact>
               <Dashboard />
             </Route> */}
-            <Route path="/patientslist" exact>
-              <Patientslist />
-            </Route>
+            <PrivateRoute path="/patientslist" exact authenticated={ isAuthenticated } component={ Patientslist } />
             <Route path="/" exact>
               <LoginRegister />
             </Route>
