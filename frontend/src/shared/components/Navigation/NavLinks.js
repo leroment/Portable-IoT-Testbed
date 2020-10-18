@@ -1,9 +1,21 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, {useState} from "react";
+import { NavLink, Redirect } from "react-router-dom";
 
 import "./NavLinks.css";
 
-const NavLinks = (props) => {
+const NavLinks = ({ authenticated }) => {
+
+  const [redirectToLogin, setRedirectToLogin] = useState(false);
+
+  if (redirectToLogin) {
+    return <Redirect to="/" />;
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setRedirectToLogin(true);
+  };
+
   return (
     <ul className="nav-links">
       <li>
@@ -21,16 +33,24 @@ const NavLinks = (props) => {
           ALERTS
         </NavLink>
       </li>
-      <li>
-        <NavLink to="/" exact>
-          LOGIN
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/" exact>
-          SIGNOUT
-        </NavLink>
-      </li>
+      
+      {!authenticated && (
+          <li>
+          <NavLink to="/" exact>
+            LOGIN
+          </NavLink>
+        </li> )
+      }
+      {authenticated &&
+          (
+            <li>
+            <NavLink to="/" >
+              SIGNOUT
+            </NavLink>
+          </li>
+          )
+      }
+
     </ul>
   );
 };
