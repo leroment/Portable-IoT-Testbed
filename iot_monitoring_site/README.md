@@ -221,3 +221,59 @@ GET /api/<ECG/EDA/EMG/Accelerometer>/<ID>
     "detail": "Not found."
 }
 ```
+
+### Patient Data
+Obtain patient data.
+
+##### Format
+```json
+GET /api/patients/<ID>/patientdata
+```
+
+#### Responses
+##### Successful response:
+```json
+200 OK
+{
+        "id": <ID>,
+        "user": <User_id>,
+        "health_officer": <HealthOfficer_Id>,
+        "creation_date": <creation_date>,
+        "ecg": [
+            {
+                "id": <ecg_id>,
+                "patient_data": <patientdata_id>,
+                "data_id": <data_id>
+            }
+        ],
+        "eda": [
+            {
+                "id": <eda_id>,
+                "patient_data": <patientdata_id>,
+                "data_id": <data_id>
+            }
+        ],
+        "emg": [
+            {
+                "id": <emg_id>,
+                "patient_data": <patientdata_id>,
+                "data_id": <data_id>
+            }
+        ],
+        "accelerometer": [
+            {
+                "id": <accelerometer_id>,
+                "patient_data": <patientdata_id>,
+                "data_id": <data_id>
+            }
+        ]
+    }
+```
+##### Invalid credentials
+```json
+404 Not Found
+{
+    "detail": "Not found."
+}
+```
+
