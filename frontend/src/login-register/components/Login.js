@@ -36,11 +36,11 @@ const Login = () => {
   return (
     <div className="form-container sign-in-container">
       <form className="form" onSubmit={handleSubmit}>
+
+        <h1 className="form-title">Sign In</h1>
         {
           error.message &&  (<Alert variant="filled" severity="warning">{error.message}</Alert>)
         }
-        <h1 className="form-title">Sign In</h1>
-
         <input type="text" placeholder="Username" onChange={(e) => setUserName(e.target.value) } />
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
 

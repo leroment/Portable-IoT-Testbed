@@ -31,17 +31,18 @@ const SignUp = () => {
     )
     .catch((err) => {
       console.log(err.response);
-      setError((error) => ({...error, message: err.response.data.username}));
+      setError((error) => ({...error, message: err.response.data.username || err.response.data.detail }));
     })
   };
 
   return (
     <div className="form-container sign-up-container">
       <form className="form" onSubmit={handleSubmit}>
+
+        <h1 className="form-title">Sign Up</h1>
         {
           error.message &&  (<Alert variant="filled" severity="warning">{error.message}</Alert>)
         }
-        <h1 className="form-title">Sign Up</h1>
         <input
           type="text"
           placeholder="Your Username"
