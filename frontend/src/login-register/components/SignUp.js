@@ -1,14 +1,34 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Redirect, Link as RouterLink } from "react-router-dom";
 
 const SignUp = () => {
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirectToDashboard, setRedirectToDashboard] = useState(false);
+
+  if (redirectToDashboard) {
+    return <Redirect to="/dashboard" />;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //registerInit(username, email, password);
+
+    axios.post(`/api/register`, {
+      "username": username,
+      "email": email,
+      "password": password
+    }).then((response) => {
+      console.log(response);
+      if (response.status == 200 && response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        setRedirectToDashboard(true);
+      }
+    }
+    ).catch((err) => {
+      console.log(err);
+    })
   };
 
   return (
@@ -37,41 +57,5 @@ const SignUp = () => {
   );
 };
 
-// const registerInit = (username, email, password) => {
-//   const base = "http://127.0.0.1:8000/api";
-
-//   axios
-//     .post(`${base}/register`, {
-//       username: username,
-//       email: email,
-//       password: password,
-//     })
-//     .then((response) => {
-//       console.log(response);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-
-//     localStorage.setItem("token", )
-//     axios.post(`${base}/login`,
-//     {
-//       email: email,
-//       password: password,
-//     }
-//     )
-
-//   const formData = new FormData();
-//   formData.set("username", username);
-//   formData.set("email", email);
-//   formData.set("password", password);
-
-//   const signup = await axios({
-//     method: "POST",
-//     url: `${base}/register`,
-//     data: formData,
-//     config: {},
-//   });
-// };
 
 export default SignUp;
