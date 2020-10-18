@@ -25,16 +25,22 @@ const rows = [
 function Patientslist() {
 
     useEffect(() => {
-        axios.post(`/api/login`, {
-            username: "andrewcai",
-            password: "test123"
-        }).then((response) => {
-            localStorage.setItem("token", response.data.token);
-        }).catch(err => {
-            console.log(err);
-        });
-    }, []);
+        // axios.post(`/api/register`, {
+        //     username: "andrewcai",
+        //     email: "andrewcai19972011@gmail.com",
+        //     password: "test123"
+        // }).then((response) => {
+        //     localStorage.setItem("token", response.data.token);
+        // }).catch(err => {
+        //     console.log(err);
+        // });
 
+        axios.get(`/api/patients`, {
+            headers: { Authorization: `Token ${localStorage.getItem('token')}`}
+        }).then((response) => {
+            console.log(response);
+        })
+    }, []);
 
 
     
