@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Redirect, Link as RouterLink } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 const SignUp = () => {
   const [username, setUserName] = useState("");
@@ -21,7 +21,7 @@ const SignUp = () => {
       "password": password
     }).then((response) => {
       console.log(response);
-      if (response.status == 200 && response.data.token) {
+      if (response.status === 200 && response.data.token) {
         localStorage.setItem("token", response.data.token);
         setRedirectToDashboard(true);
       }
@@ -38,7 +38,7 @@ const SignUp = () => {
 
         <input
           type="text"
-          placeholder="Your Name"
+          placeholder="Your Username"
           onChange={(e) => setUserName(e.target.value)}
         />
         <input
