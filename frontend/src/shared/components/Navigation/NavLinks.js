@@ -3,7 +3,7 @@ import { NavLink, Redirect } from "react-router-dom";
 
 import "./NavLinks.css";
 
-const NavLinks = (props) => {
+const NavLinks = ({ authenticated }) => {
 
   const [redirectToLogin, setRedirectToLogin] = useState(false);
 
@@ -33,16 +33,24 @@ const NavLinks = (props) => {
           ALERTS
         </NavLink>
       </li>
-      <li>
-        <NavLink to="/" exact>
-          LOGIN
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/" onClick={handleLogout}>
-          SIGNOUT
-        </NavLink>
-      </li>
+      
+      {!authenticated && (
+          <li>
+          <NavLink to="/" exact>
+            LOGIN
+          </NavLink>
+        </li> )
+      }
+      {authenticated &&
+          (
+            <li>
+            <NavLink to="/" >
+              SIGNOUT
+            </NavLink>
+          </li>
+          )
+      }
+
     </ul>
   );
 };

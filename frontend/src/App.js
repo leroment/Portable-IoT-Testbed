@@ -13,6 +13,10 @@ import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Patientslist from "./patientslist/pages/Patientslist";
 
 
+const isAuthenticated = () => {
+  return !!localStorage.getItem("token");
+};
+
 //private route
 const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
   return (
@@ -36,15 +40,15 @@ function App() {
         <MainNavigation />
         <main>
           <Switch>
-            {/* <PrivateRoute
+            <PrivateRoute
           path="/dashboard"
           exact
-          authenticated-={() => {}}
+          authenticated-={ isAuthenticated }
           component={Dashboard}
-        /> */}
-            <Route path="/dashboard" exact>
+        />
+            {/* <Route path="/dashboard" exact>
               <Dashboard />
-            </Route>
+            </Route> */}
             <Route path="/patientslist" exact>
               <Patientslist />
             </Route>
