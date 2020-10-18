@@ -10,6 +10,7 @@ import {
 import LoginRegister from "./login-register/pages/LoginRegister";
 import Dashboard from "./dashboard/pages/Dashboard";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import Patientslist from "./patientslist/pages/Patientslist";
 
 
 //private route
@@ -43,6 +44,9 @@ function App() {
         /> */}
             <Route path="/dashboard" exact>
               <Dashboard />
+            </Route>
+            <Route path="/patientslist" exact>
+              <Patientslist />
             </Route>
             <Route path="/" exact>
               <LoginRegister />
