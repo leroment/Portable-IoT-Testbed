@@ -91,7 +91,19 @@ class LoginAPI(KnoxLoginView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        outcome = super(LoginAPI, self).post(request, format=None)
+
+        if outcome is not None:
+            return Response({
+                "token": outcome.data['token'],
+                "expiry": outcome.data['expiry'],
+                "user": UserSerializer(user, context={'request': request}).data,
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                'error': 'Invalid credentials'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -199,10 +211,10 @@ class AccelerometerDataViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
 
 
-class CustomObtainAuthToken(ObtainAuthToken):
-    permission_classes = (permissions.AllowAny,)
+# class CustomObtainAuthToken(ObtainAuthToken):
+#     permission_classes = (permissions.AllowAny,)
 
-    def post(self, request, *args, **kwargs):
-        response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
-        token = AuthToken.objects.get(key=response.data['token'])
-        return Response({'token': token.key, 'id': token.user_id})
+#     def post(self, request, *args, **kwargs):
+#         response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
+#         token = AuthToken.objects.get(key=response.data['token'])
+#         return Response({'token': token.key, 'id': token.user_id})

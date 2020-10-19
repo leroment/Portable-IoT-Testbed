@@ -15,7 +15,7 @@ from .views import (
     EDADataViewSet, 
     EMGDataViewSet, 
     AccelerometerDataViewSet,
-    CustomObtainAuthToken
+    #CustomObtainAuthToken
 )
 
 router = routers.DefaultRouter()
@@ -37,7 +37,7 @@ urlpatterns = [
     path(r'login', LoginAPI.as_view(), name='login'),
     path(r'logout', knox_views.LogoutView.as_view(), name='logout'),
     path(r'logoutall', knox_views.LogoutAllView.as_view(), name='logoutall'),
-    path(r'authenticate', CustomObtainAuthToken.as_view(), name='authenticate'),
+    #path(r'authenticate', CustomObtainAuthToken.as_view(), name='authenticate'),
     path(r'', include(router.urls)),
     path(r'', include(patients_router.urls)),
 
