@@ -44,8 +44,6 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        #'rest_framework.authentication.BasicAuthentication',
-        #'rest_framework.authentication.SessionAuthentication',
         'knox.auth.TokenAuthentication',
     ]
 
@@ -80,6 +78,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'iot_monitoring_site.wsgi.application'
+
+REST_KNOX = {
+    'USER_SERIALIZER': 'api.serializers.UserSerializer'
+}
 
 
 # Database
