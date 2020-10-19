@@ -5,15 +5,19 @@ from rest_framework import generics, permissions, viewsets, status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission
+from rest_framework.authtoken.views import ObtainAuthToken
 from knox.models import AuthToken
 from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth.models import User
 import uuid
 
+
+
 from .serializers import UserSerializer, RegisterSerializer, PatientDataSerializer, ECGDataSerializer, EDADataSerializer, EMGDataSerializer, AccelerometerDataSerializer
 from .models import PatientData, ECGData, EDAData, EMGData, AccelerometerData, CriticalVitals
 
 # Create your views here.
+
 
 class UserandAdminOnly(BasePermission):
     message = 'Invalid user'
@@ -195,3 +199,10 @@ class AccelerometerDataViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
 
 
+class CustomObtainAuthToken(ObtainAuthToken):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
+        token = AuthToken.objects.get(key=response.data['token'])
+        return Response({'token': token.key, 'id': token.user_id})
