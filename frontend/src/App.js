@@ -1,19 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
 
-import LoginRegister from "./login-register/Pages/LoginRegister";
-import Dashboard from "./dashboard/Pages/Dashboard";
+import LoginRegister from "./login-register/pages/LoginRegister";
+import Dashboard from "./dashboard/pages/Dashboard";
+import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import Patientslist from "./patientslist/pages/Patientslist";
 
-const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
+const isAuthenticated = () => {
+  console.log("from app js" + localStorage.getItem("token"));
+  return !!localStorage.getItem("token");
+};
+//private route
+const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) =>
-        authenticated === true ? (
-          <Component {...props} />
+        isAuthenticated() ? (
+          <div>
+            <MainNavigation authenticated={isAuthenticated()} />
+            <Component {...props} />
+          </div>
         ) : (
-          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+          <Redirect to={{ pathname: "/" }} />
+        )
+      }
+    />
+  );
+};
+
+const PublicRoute = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        isAuthenticated() ? (
+          <div>
+            <Redirect to={{ pathname: "/dashboard" }} />
+          </div>
+        ) : (
+          <div>
+            <MainNavigation authenticated={isAuthenticated()} />
+            <Component {...props} />
+          </div>
         )
       }
     />
@@ -21,18 +56,27 @@ const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
 };
 
 function App() {
+  // const [authenticated, setAuthenticated] = useState(isAuthenticated);
+
+  // const updateAuthenticated = (value) => {
+  //   setAuthenticated(value)
+  // }
+
   return (
     <div className="App">
       <Router>
-        <PrivateRoute
-          path="/dashboard"
-          exact
-          authenticated-={() => {}}
-          component={Dashboard}
-        />
-        <Route path="/">
-          <LoginRegister />
-        </Route>
+        <main>
+          <Switch>
+            <PrivateRoute path="/dashboard" exact component={Dashboard} />
+            {/* <Route path="/dashboard" exact>
+              <Dashboard />
+            </Route> */}
+            <PrivateRoute path="/patientslist" exact component={Patientslist} />
+            <PublicRoute path="/" exact component={LoginRegister} />
+            {/* <LoginRegister /> */}
+            {/* </PublicRoute> */}
+          </Switch>
+        </main>
       </Router>
       {/* <h1> Grafana in React App</h1>
       <iframe
