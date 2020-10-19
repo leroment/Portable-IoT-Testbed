@@ -19,8 +19,7 @@ class UserandAdminOnly(BasePermission):
     message = 'Invalid user'
 
     def has_permission(self, request, view):
-        print(request.resolver_match.kwargs['pk'])
-        user_id = int(request.resolver_match.kwargs.get('pk'))
+        user_id = int(request.resolver_match.kwargs.get('user_pk'))
         return (request.user.id == user_id or request.user.is_staff)
 
 
