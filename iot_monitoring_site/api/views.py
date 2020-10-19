@@ -15,12 +15,13 @@ from .models import PatientData, ECGData, EDAData, EMGData, AccelerometerData, C
 
 # Create your views here.
 
-class UserOnly(BasePermission):
+class UserandAdminOnly(BasePermission):
     message = 'Invalid user'
 
     def has_permission(self, request, view):
-        user_id = int(request.resolver_match.kwargs['user_pk'])
-        return request.user.id == user_id
+        print(request.resolver_match.kwargs['pk'])
+        user_id = int(request.resolver_match.kwargs.get('pk'))
+        return (request.user.id == user_id or request.user.is_staff)
 
 
 # Register API
@@ -54,7 +55,7 @@ class RegisterAPI(generics.GenericAPIView):
             data_id = id_generator(),
         )
 
-        eda = ECGData.objects.create(
+        eda = EDAData.objects.create(
             patient_data = patientdata,
             data_id = id_generator(),
         )
@@ -163,7 +164,7 @@ class DataViewSet(viewsets.ModelViewSet):
 #single patient
 class PatientDataViewSet(viewsets.ModelViewSet):
     serializer_class = PatientDataSerializer
-    permission_classes = (permissions.IsAuthenticated, UserOnly)
+    permission_classes = (permissions.IsAuthenticated, UserandAdminOnly)
 
     def get_queryset(self):
         user_id = int(self.kwargs['user_pk'])
