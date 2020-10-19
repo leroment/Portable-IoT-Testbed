@@ -21,9 +21,10 @@ const Login = () => {
       "username": username,
       "password": password
     }).then((response) => {
-      console.log(response);
       if (response.status === 200 && response.data.token) {
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("id", response.data.user.id);
+        localStorage.setItem("username", response.data.user.username);
         setRedirectToDashboard(true);
       }
     }

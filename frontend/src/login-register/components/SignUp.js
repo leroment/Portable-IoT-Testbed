@@ -5,6 +5,8 @@ import { Alert } from "@material-ui/lab";
 
 const SignUp = () => {
   const [username, setUserName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirectToDashboard, setRedirectToDashboard] = useState(false);
@@ -21,12 +23,16 @@ const SignUp = () => {
       .post(`/api/register`, {
         username: username,
         email: email,
+        first_name: firstName,
+        last_name: lastName,
         password: password,
       })
       .then((response) => {
         console.log(response);
         if (response.status === 200 && response.data.token) {
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("id", response.data.user.id);
+          localStorage.setItem("username", response.data.user.username);
           setRedirectToDashboard(true);
         }
       })
@@ -57,6 +63,16 @@ const SignUp = () => {
           type="email"
           placeholder="Your Email"
           onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Your First Name"
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Your Last Name"
+          onChange={(e) => setLastName(e.target.value)}
         />
         <input
           type="password"
