@@ -24,6 +24,7 @@ const Login = () => {
       if (response.status === 200 && response.data.token) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("id", response.data.user.id);
+        localStorage.setItem("is_staff", response.data.user.is_staff);
         localStorage.setItem("username", response.data.user.username);
         setRedirectToDashboard(true);
       }
@@ -33,7 +34,7 @@ const Login = () => {
       setError((error) => ({...error, message: err.response.data.non_field_errors || err.response.data.detail }));
     })
   };
-  
+
   return (
     <div className="form-container sign-in-container">
       <form className="form" onSubmit={handleSubmit}>

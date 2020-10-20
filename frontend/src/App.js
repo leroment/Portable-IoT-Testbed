@@ -11,6 +11,7 @@ import LoginRegister from "./login-register/pages/LoginRegister";
 import Dashboard from "./dashboard/pages/Dashboard";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Patientslist from "./patientslist/pages/Patientslist";
+import Alerts from "./alerts/Alerts";
 
 const isAuthenticated = () => {
   console.log("from app js" + localStorage.getItem("token"));
@@ -72,6 +73,7 @@ function App() {
               <Dashboard />
             </Route> */}
             <PrivateRoute path="/patientslist" exact component={Patientslist} />
+            <PrivateRoute path="/alerts" exact component={Alerts} />
             <PublicRoute path="/" exact component={LoginRegister} />
             {/* <LoginRegister /> */}
             {/* </PublicRoute> */}

@@ -21,6 +21,10 @@ const NavLinks = (props) => {
     //props.handleForceUpdate();
   };
 
+  const isStaff = () => {
+    return !!JSON.parse(localStorage.getItem("is_staff"));
+  };
+
   return (
     <ul className="nav-links">
       {props.authenticated && (
@@ -30,7 +34,7 @@ const NavLinks = (props) => {
           </NavLink>
         </li>
       )}
-      {props.authenticated && (
+      {props.authenticated && isStaff() && (
         <li>
           <NavLink to="/patientslist" exact>
             PATIENTS

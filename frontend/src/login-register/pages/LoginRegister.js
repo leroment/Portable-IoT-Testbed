@@ -9,7 +9,7 @@ const LoginRegister = () => {
   const [rightPanelActive, setRightPanelActive] = useState(false);
 
   return (
-    <div className="main">
+    <div className="main" style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%", width: "100%"}}>
       <div
         className={`container ${rightPanelActive ? `right-panel-active` : ``}`}
       >

@@ -1,0 +1,37 @@
+.dashboard-container {
+    padding: 50px;
+}
+
+.dashboard-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-graphs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    height: 100%;
+
+    justify-content: center;
+}
+
+/* Most of the following is for dynamic sizing, with constant aspect ratio */
+.dashboard-graph-wrapper {
+    max-width: 900px;
+    min-width: 600px;
+    flex-grow: 1;
+}
+
+.dashboard-graph-wrapper-inner {
+    position: relative;
+    padding-bottom: 50%; /* 2:1 aspect ratio */
+}
+
+.dashboard-graph-wrapper iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    left: 0;
+}
