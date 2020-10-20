@@ -33,7 +33,7 @@ function Patientslist() {
         { field: 'email', headerName: 'Email', width: 400 },
         { field: 'is_staff', headerName: 'Role', width: 100 },
     ]
-    
+
     const rows = patients.map((p) => (
             {
                 id: p.id,
@@ -44,12 +44,14 @@ function Patientslist() {
         ))
       ;
 
-    
+
     return (
-        <div style={{ height: "40vh", width: "50vw" }}>
-            <h1>Patients</h1>
-            <p></p>
-            <DataGrid rows={rows} columns={columns} pageSize={5} />
+        <div style={{ width: "100vw", display: "flex", justifyContent:"center", alignItems:"center" }}>
+            <div style={{ height: "40vh", width: "50vw" }}>
+                <h1>Patients</h1>
+                <p></p>
+                <DataGrid rows={rows} columns={columns} pageSize={5} />
+            </div>
         </div>
     )
 }
