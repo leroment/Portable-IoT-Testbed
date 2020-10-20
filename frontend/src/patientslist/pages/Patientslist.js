@@ -31,7 +31,7 @@ function Patientslist() {
         { field: 'id', headerName: 'ID', width: 100 },
         { field: 'username', headerName: 'Username', width: 300 },
         { field: 'email', headerName: 'Email', width: 400 },
-        { field: 'is_staff', headerName: 'Role', width: 100 },
+        { field: 'is_staff', headerName: 'Staff', width: 100 },
     ]
 
     const rows = patients.map((p) => (

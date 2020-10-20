@@ -22,7 +22,7 @@ const NavLinks = (props) => {
   };
 
   const isStaff = () => {
-    return !!localStorage.getItem("is_staff");
+    return !!JSON.parse(localStorage.getItem("is_staff"));
   };
 
   return (
