@@ -18,7 +18,7 @@ def ECG(subsample_data, points, sample_time, data_point, token):
     if not token:
         return
 
-    subsample_data.append(data_point[5])
+    subsample_data.append(data_point[4 + settings.ports.ecg_port])
     if len(subsample_data) == ecg_full_buffer_count:
         sampled = np.max(subsample_data)  # use max to show peaks
         subsample_data.clear()
@@ -31,6 +31,58 @@ def ECG(subsample_data, points, sample_time, data_point, token):
             .time(sample_time, WritePrecision.NS)
         )
         logger.info(f'ECG: {sampled}')
+
+
+'''
+EDA
+'''
+
+eda_full_buffer_count = int(settings.sampling.base_sample_rate / settings.sampling.eda_rate)
+
+
+def EDA(subsample_data, points, sample_time, data_point, token):
+    if not token:
+        return
+
+    subsample_data.append(data_point[4 + settings.ports.eda_port])
+    if len(subsample_data) == eda_full_buffer_count:
+        sampled = np.mean(subsample_data)
+        subsample_data.clear()
+
+        points.append(
+            Point("TIM-DEV")
+            .tag("type", 'EDA')
+            .tag("token", token)
+            .field("voltage", sampled)
+            .time(sample_time, WritePrecision.NS)
+        )
+        logger.info(f'EDA: {sampled}')
+
+
+'''
+EMG
+'''
+
+emg_full_buffer_count = int(settings.sampling.base_sample_rate / settings.sampling.emg_rate)
+
+
+def EMG(subsample_data, points, sample_time, data_point, token):
+    if not token:
+        return
+
+    subsample_data.append(data_point[4 + settings.ports.emg_port])
+    if len(subsample_data) == emg_full_buffer_count:
+        sampled = np.max(subsample_data)  # use max to show peaks
+        subsample_data.clear()
+
+        points.append(
+            Point("TIM-DEV")
+            .tag("type", 'EMG')
+            .tag("token", token)
+            .field("voltage", sampled)
+            .time(sample_time, WritePrecision.NS)
+        )
+        logger.info(f'EMG: {sampled}')
 
 
 '''
@@ -49,7 +101,7 @@ def ACC(subsample_data, points, sample_time, data_point, token):
     if not token:
         return
 
-    subsample_data.append(data_point[6])
+    subsample_data.append(data_point[4 + settings.ports.acc_port])
     if len(subsample_data) == acc_full_buffer_count:
         sampled = np.max(subsample_data)  # use max to show peaks
         subsample_data.clear()
@@ -81,11 +133,17 @@ def HR(subsample_data, points, sample_time, data_point, token):
     if not token:
         return
 
-    subsample_data.append(data_point[5])
+    subsample_data.append(data_point[4 + settings.ports.ecg_port])
 
     if len(subsample_data) >= hr_full_buffer_count:
-        hr = process_hr(subsample_data)
-        del subsample_data[:hr_delete_count]
+        try:
+            hr = process_hr(subsample_data)
+        except Exception as e:
+            logger.error('Error processing heart rate:')
+            logger.error(e)
+            return
+        finally:
+            del subsample_data[:hr_delete_count]
 
         points.append(
             Point("TIM-DEV")

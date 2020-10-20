@@ -3,7 +3,7 @@ from bitalino import BITalino, ExceptionCode
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import WriteType, WriteOptions
 from settings import settings
-from process import ECG, ACC, HR
+from process import ECG, ACC, HR, EDA, EMG
 
 import time
 import signal
@@ -104,6 +104,8 @@ def run_logging(device, write_api, data_tokens):
             ECG(subsample_data['ecg'], points, sample_time, data_point, data_tokens['ecg'])
             ACC(subsample_data['acc'], points, sample_time, data_point, data_tokens['acc'])
             HR(subsample_data['hr'], points, sample_time, data_point, data_tokens['ecg'])  # use ecg token as ECG and HR go hand in hand
+            EDA(subsample_data['eda'], points, sample_time, data_point, data_tokens['eda'])
+            EMG(subsample_data['emg'], points, sample_time, data_point, data_tokens['emg'])
 
             sample_time = sample_time + time_between_samples
 

@@ -30,5 +30,14 @@ class Settings:
 
     sampling = Sampling()
 
+    class Ports:
+        # A1 to A6 available
+        ecg_port = 1
+        acc_port = 2
+        eda_port = 3
+        emg_port = 4
+
+    ports = Ports()
+
 
 settings = Settings()
