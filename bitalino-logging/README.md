@@ -10,7 +10,10 @@ Then:
 
 # Running
 
-1. Activate virtual env `workon env`
-2. Run main script `python example.py`
-
 If running for the first time on Windows, you will need to allow the Bitalino bluetooth connection by clicking the `Set up device` notification.
+
+1. Activate virtual env `workon env`
+2. Run main script `python main.py`
+3. Ensure the desired sensors are plugged into the ports defined in `settings.py`
+3. Input your unique data tokens from the Health Monitoring dashboard. Data will not be logged for sensors you do not enter a token for.
+4. Data will then start being logged.
