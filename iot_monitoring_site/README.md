@@ -4,11 +4,11 @@
 ### Setup
 
 1. Install Python
-2. Install virtualenvwrapper-win with python -m pip install virtualenvwrapper-win
+2. Install `virtualenvwrapper-win` with `python -m pip install virtualenvwrapper-win`
 3. Navigate to Portable-IoT-Testbed/iot_monitoring_site folder in terminal
-4. Run mkvirtualenv iot_backend
-5. Run workon iot_backend
-6. Run python -m pip install -r requirements.txt
+4. Run `mkvirtualenv iot_backend`
+5. Run `workon iot_backend`
+6. Run `python -m pip install -r requirements.txt`
 
 ### Running
 
@@ -74,7 +74,7 @@ POST /api/logout/
 ```json
 200 OK
 {
-    
+
 }
 ```
 
@@ -102,7 +102,7 @@ POST /api/logoutall/
 ```json
 200 OK
 {
-    
+
 }
 ```
 

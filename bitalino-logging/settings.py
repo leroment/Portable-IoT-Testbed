@@ -27,7 +27,6 @@ class Settings:
         hr_buffer_seconds = 10
         hr_interval_seconds = 1
 
-
     sampling = Sampling()
 
     class Ports:
